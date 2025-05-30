@@ -26,20 +26,15 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**")
-                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout()
-                .addLogoutHandler(logoutHandler)
-                .logoutSuccessHandler((request,response,authentication)-> SecurityContextHolder.clearContext())
-                .logoutUrl("/api/v1/auth/logout")
+                .formLogin().disable()
+                .httpBasic().disable()
         ;
         return http.build();
     }
