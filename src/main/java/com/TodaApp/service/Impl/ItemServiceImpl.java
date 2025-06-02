@@ -48,7 +48,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void updateNewItem(int id ,ItemRequest request) {
+    @Transactional
+    public void updateItem(int id ,ItemRequest request) {
         Item item = itemRepository.findById(id).orElse(null);
         ItemDetails itemDetails = itemDetailsRepository.findById(item.getItemDetails().getId()).orElse(null);
         itemDetails.setDescription(request.getDescription());
@@ -61,8 +62,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemResponse searchByTitle(String title) {
-        Item item = itemRepository.findByTitle(title);
+    public ItemResponse findItem(int id) {
+        Item item = itemRepository.findById(id).orElse(null);
         ItemDetails itemDetails = itemDetailsRepository.findById(item.getItemDetails().getId()).orElse(null);
        ItemResponse response = ItemResponse.builder()
                .itemId(item.getId())

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public interface ItemService {
     void addNewItem(ItemRequest itemRequest);
     void deleteItem(int itemId);
-    void updateNewItem(int id ,ItemRequest itemRequest);
-    ItemResponse searchByTitle(String title);
+    void updateItem(int id ,ItemRequest itemRequest);
+    ItemResponse findItem(int id);
 
 }
