@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserInfoResponse {
+    private int userId;
     private String email;
     private List<String> roles;
 }

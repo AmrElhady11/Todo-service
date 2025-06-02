@@ -1,0 +1,80 @@
+package com.TodaApp.service.Impl;
+
+import com.TodaApp.entity.Item;
+import com.TodaApp.entity.ItemDetails;
+import com.TodaApp.repository.ItemDetailsRepository;
+import com.TodaApp.repository.ItemRepository;
+import com.TodaApp.request.ItemRequest;
+import com.TodaApp.response.ItemResponse;
+import com.TodaApp.security.user.CustomUser;
+import com.TodaApp.service.ItemService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+
+@RequiredArgsConstructor
+public class ItemServiceImpl implements ItemService {
+    private final ItemRepository itemRepository;
+    private final ItemDetailsRepository itemDetailsRepository;
+    @Override
+    @Transactional
+    public void addNewItem(ItemRequest request) {
+      ItemDetails itemDetails = ItemDetails.builder()
+                        .description(request.getDescription())
+                        .createdAt(LocalDateTime.now())
+                        .status(request.getStatus())
+                        .priority(request.getPriority())
+                        .build();
+     itemDetailsRepository.save(itemDetails);
+
+     Item item=   Item.builder()
+                .title(request.getTitle())
+                .userID(getUserId())
+                .itemDetails(itemDetails)
+                .build();
+     itemRepository.save(item);
+
+
+    }
+
+    @Override
+    @Transactional
+    public void deleteItem(int itemId) {
+        itemRepository.deleteById(itemId);
+
+    }
+
+    @Override
+    public void updateNewItem(int id ,ItemRequest request) {
+        Item item = itemRepository.findById(id).orElse(null);
+        ItemDetails itemDetails = itemDetailsRepository.findById(item.getItemDetails().getId()).orElse(null);
+        itemDetails.setDescription(request.getDescription());
+        itemDetails.setStatus(request.getStatus());
+        itemDetails.setPriority(request.getPriority());
+        itemDetailsRepository.save(itemDetails);
+        item.setTitle(request.getTitle());
+        item.setItemDetails(itemDetails);
+        itemRepository.save(item);
+    }
+
+    @Override
+    public ItemResponse searchByTitle(String title) {
+        Item item = itemRepository.findByTitle(title);
+        ItemDetails itemDetails = itemDetailsRepository.findById(item.getItemDetails().getId()).orElse(null);
+       ItemResponse response = ItemResponse.builder()
+               .itemId(item.getId())
+               .description(itemDetails.getDescription())
+               .status(itemDetails.getStatus())
+               .priority(itemDetails.getPriority())
+               .build();
+        return response;
+    }
+    private int getUserId(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        CustomUser user = (CustomUser) auth.getPrincipal();
+        return getUserId();
+    }
+}
