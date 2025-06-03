@@ -2,9 +2,8 @@ package com.TodaApp.service;
 
 import com.TodaApp.request.ItemRequest;
 import com.TodaApp.response.ItemResponse;
-import org.springframework.stereotype.Service;
 
-@Service
+
 public interface ItemService {
     void addNewItem(ItemRequest itemRequest);
     void deleteItem(int itemId);
