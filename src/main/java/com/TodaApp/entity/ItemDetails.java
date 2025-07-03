@@ -3,15 +3,13 @@ package com.TodaApp.entity;
 import com.TodaApp.enums.ItemPriority;
 import com.TodaApp.enums.ItemStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
