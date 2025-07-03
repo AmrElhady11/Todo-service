@@ -45,10 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         jwt = authorizationHeader.substring(7);
 
         if ( SecurityContextHolder.getContext().getAuthentication() == null) {
-            System.out.println("before userTokenInfo========================");
                 UserInfoResponse userTokenInfo = jwtService.checkToken(jwt);
-            System.out.println("after userTokenInfo========================");
-            System.out.println(userTokenInfo+"========================");
 
 
             if( userTokenInfo !=null ){
@@ -59,7 +56,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
                 CustomUser user = new CustomUser(userId,email,authorities);
-                System.out.println(user+"=================================================");
 
 
 
@@ -67,7 +63,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                System.out.println("Authentication Success===========================================");
             }
         }
         filterChain.doFilter(request, response);
