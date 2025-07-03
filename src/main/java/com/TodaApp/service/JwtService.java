@@ -23,14 +23,12 @@ public class JwtService {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
-        System.out.println("Iam Here in checkToken method before response=====================================================");
         ResponseEntity<UserInfoResponse> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 requestEntity,
                 UserInfoResponse.class
         );
-        System.out.println("Iam Here in checkToken method after response=====================================================");
 
         if (response.getStatusCode() == HttpStatus.OK) {
             return response.getBody();
