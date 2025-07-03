@@ -3,13 +3,15 @@ package com.TodaApp.controller;
 import com.TodaApp.request.ItemRequest;
 import com.TodaApp.response.ItemResponse;
 import com.TodaApp.service.ItemService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/todaApp/")
+@RequestMapping("/api/v1/tasks")
 @RequiredArgsConstructor
+@Tag(name = "Tasks")
 public class ItemController {
     private final ItemService itemService;
 
