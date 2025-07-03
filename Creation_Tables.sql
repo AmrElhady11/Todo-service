@@ -11,7 +11,7 @@ create table item_details(
                              id int auto_increment primary key ,
                              description  text not null ,
                              created_at timestamp not null ,
-                             priority  int ,
+                             priority  varchar(55) ,
                              status varchar(100)
 
 );
